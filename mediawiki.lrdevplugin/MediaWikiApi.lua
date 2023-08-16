@@ -29,10 +29,12 @@ local MediaWikiApi = {
 }
 
 function MediaWikiApi.httpError(status)
+	MediaWikiUtils.tracef('HttpError: Received HTTP status %s.', status)
 	LrErrors.throwUserError(LOC("$$$/LrMediaWiki/Api/HttpError=Received HTTP status ^1.", status))
 end
 
 function MediaWikiApi.mediaWikiError(code, info)
+	MediaWikiUtils.tracef('MediaWikiError: The MediaWiki error %s occured: %s.', code, info)
 	LrErrors.throwUserError(LOC("$$$/LrMediaWiki/Api/MediaWikiError=The MediaWiki error ^1 occured: ^2", code, info))
 end
 
@@ -106,6 +108,7 @@ function MediaWikiApi.performHttpRequest(path, arguments, requestHeaders, post)
 	MediaWikiUtils.trace(resultHeaders.status);
 
 	if not resultHeaders.status then
+		MediaWikiUtils.trace('NoConnection: No network connection.');
 		LrErrors.throwUserError(LOC("$$$/LrMediaWiki/Api/NoConnection=No network connection."))
 	elseif resultHeaders.status ~= 200 then
 		MediaWikiApi.httpError(resultHeaders.status)

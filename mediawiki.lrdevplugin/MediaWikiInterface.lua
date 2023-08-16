@@ -179,6 +179,7 @@ MediaWikiInterface.uploadFile = function(filePath, description, hasDescription, 
 	end
 	local uploadResult = MediaWikiApi.upload(targetFileName, filePath, description, comment, ignorewarnings)
 	if uploadResult ~= true then
+		MediaWikiUtils.tracef('UploadFailed: Upload failed: %s.', uploadResult)
 		return LOC("$$$/LrMediaWiki/Interface/UploadFailed=Upload failed: ^1", uploadResult)
 	end
 	return nil
